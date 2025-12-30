@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kajapez Proposal - Nailong Theme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Fredoka One', cursive;
+            background-color: #FFFACD; /* Light yellow background (unchanged) */
+            background-image: radial-gradient(circle, #fcfff4 10px, transparent 10px); /* Pale green polka dots */
+            background-size: 40px 40px; /* Spacing for small, even dots */
+            color: #FFD700; /* Gold/yellow text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .page {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #FFFFE0; /* Pale yellow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+        .character {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            /* Removed: border: 5px solid #FFD700; */
+            margin: 10px;
+            transition: transform 0.3s ease; /* Smooth scaling */
+        }
+        .character-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2em;
+            color: #FFA500; /* Orange-yellow */
+            margin-bottom: 20px;
+        }
+        button {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #FFD700; /* Gold */
+            color: #FFF;
+            transition: background-color 0.3s, transform 0.3s ease; /* Smooth scaling and hover */
+        }
+        button:hover {
+            background-color: #FFA500; /* Darker yellow on hover */
+        }
+        #noButton {
+            position: absolute;
+            transition: none; /* Disable smooth transitions for random movement */
+        }
+        .hidden {
+            display: none;
+        }
+        #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confettiCanvas"></canvas>
+    
+    <!-- First Page -->
+    <div id="page1" class="page">
+        <img src="https://raw.githubusercontent.com/markbeemine-eng/trial/main/nailong-1.png" alt="Nailong Character" class="character" id="nailongImage">
+        <h1>KAK DERICKKKK will you be my kajapez??</h1>
+        <button id="yesButton">GASKAANNN!!!!</button>
+        <button id="noButton">gak dulu punten</button>
+    </div>
+    
+    <!-- Second Page -->
+    <div id="page2" class="page hidden">
+        <div class="character-container">
+            <img src="https://raw.githubusercontent.com/markbeemine-eng/trial/main/nailong-2.png" alt="Nailong Character 1" class="character">
+            <img src="https://raw.githubusercontent.com/markbeemine-eng/trial/main/nailong-3.png" alt="Nailong Character 2" class="character">
+        </div>
+        <h1>YEAYYY beneran jadi kajapez aku ya Kak Derick!!</h1>
+    </div>
+
+    <script>
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const nailongImage = document.getElementById('nailongImage');
+        const canvas = document.getElementById('confettiCanvas');
+
+        // Track scales for growth effect
+        let imageScale = 1;
+        let buttonScale = 1;
+        const maxScale = 3;
+        const growthIncrement = 0.1;
+
+        // Function to move the "gak dulu" button randomly
+        function moveNoButton() {
+            const maxX = window.innerWidth - noButton.offsetWidth;
+            const maxY = window.innerHeight - noButton.offsetHeight;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
+        }
+
+        // Function to grow the image and button
+        function growElements() {
+            if (imageScale < maxScale) {
+                imageScale += growthIncrement;
+                nailongImage.style.transform = `scale(${imageScale})`;
+            }
+            if (buttonScale < maxScale) {
+                buttonScale += growthIncrement;
+                yesButton.style.transform = `scale(${buttonScale})`;
+            }
+        }
+
+        // Event listeners for the "gak dulu" button
+        noButton.addEventListener('mouseover', () => {
+            growElements(); // Grow on hover
+            moveNoButton(); // Then move the button
+        });
+        noButton.addEventListener('click', () => {
+            growElements(); // Grow on click
+            moveNoButton(); // Then move the button
+        });
+
+        // Event listener for the "gas kannn" button
+        yesButton.addEventListener('click', () => {
+            page1.classList.add('hidden');
+            page2.classList.remove('hidden');
+            // Trigger larger, screen-covering confetti
+            confetti({
+                particleCount: 300,  // More particles for denser coverage
+                spread: 360,         // Full 360-degree spread for whole screen
+                scalar: 2,           // Larger particles (doubled size)
+                origin: { y: 0.5, x: 0.5 }  // Centered burst for even distribution
+            });
+        });
+    </script>
+</body>
+</html>
